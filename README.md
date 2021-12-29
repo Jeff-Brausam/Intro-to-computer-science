@@ -60,7 +60,7 @@ Note: There are probably way more optimized ways of solving these algorithms. Th
 
 #### Bubble Sort
 
-The bubble sort algorithm does this: Go through each number individually in a list, and assess whether or not the number on the left is bigger or smaller, if it is bigger the two numbers switch place. 
+The bubble sort algorithm does this: Go through each number individually in a list, and assess whether or not the number on the left is bigger or smaller, if it is bigger the two numbers switch places. 
 
 This algorithm is really never used, if ever in the real world. 
 
@@ -106,7 +106,7 @@ const InsertionSort = (arr) => {
 };
 ```
 
-##### When would I use an insertion sort over a quick/merge sort?
+##### When would you use an insertion sort over a quick/merge sort?
 The case in which you would use an insertion sort is when a list is pretty close to already being sorted. But if it isn't, then something like merge or quick sort would be better.
 
 ## Recursion
