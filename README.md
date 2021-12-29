@@ -20,7 +20,7 @@ In computer science, this is usually represented with n instead of x. So for n t
 In general easiest way to identify the Big O is really to just look for loops. The more nested loops that you have, the higher big O notation there is.
 My general rules of thumb are:
 If it can be accessed directly, it is a constant.
-If it uses recursion in some way, it is usually logarithmic (because you are splitting the work in half each cycle).
+If it uses recursion, it is usually logarithmic (because you are splitting the work in half each cycle).
 If you have one loop, it would be linear.
 If you have two loops, it would be quadratic.
 
@@ -154,6 +154,10 @@ function factorial(n) {
 Merge sort is a sort that recursively divides the set into groups of at most two, then recursively sorts each half. It compares each number one at a time, moving the smallest number to the left of the pair. 
 
 So we need two functions. One is the first function to break down the big lists into smaller lists (the recursive function) and the other is a function that takes **two** sorted, and returns back **one** sorted function. The first function is recursive and the second is not. People usually define the first as mergeSort, and the second as merge (or stitch).
+ 
+<img src="https://dotnettutorials.net/wp-content/uploads/2019/09/c-users-pranaya-pictures-merge-sort-in-c-png.png" alt="recursion" height="500px" width="500px"/>
+
+Most javascript engines actually use merge sort under the hood for the .sort method. Sometimes it will be quick sort. 
 
 ```javascript
 const mergeSort = (nums) => {
@@ -189,7 +193,6 @@ const merge = (left, right) => {
   return results.concat(left, right);
 };
 ```
-Visual example of what is happening under the hood: https://dotnettutorials.net/wp-content/uploads/2019/09/c-users-pranaya-pictures-merge-sort-in-c-png.png
 
 ## Resources
 
