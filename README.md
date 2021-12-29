@@ -149,6 +149,7 @@ function factorial(n) {
   return n * factorial(n - 1);
 }
 ```
+## Recursive Sorts
 ## Merge Sort 
 Merge sort is a sort that recursively divides the set into groups of at most two, then recursively sorts each half. It compares each number one at a time, moving the smallest number to the left of the pair. 
 
