@@ -54,6 +54,8 @@ Human time is almost always more valuable than computer time. Sometimes readabil
 
 ## Algorithms
 
+Note: There are probably way more optimized ways of solving these algorithms. These are just written in ways to more easily disect what the algorithm is doing. 
+
 ## Iterative Sorts
 
 #### Bubble Sort
@@ -67,7 +69,8 @@ const BubbleSort = (nums) => {
    let swapped = false; 
    do { 
      swapped = false; 
-     for (let i = 0; i < nums.length; i++) { if (nums[i] > nums[i + 1]) { 
+     for (let i = 0; i < nums.length; i++) { 
+      if (nums[i] > nums[i + 1]) { 
        const temp = nums[i]; 
        nums[i] = nums[i + 1]; 
        nums[i + 1] = temp; 
@@ -117,7 +120,7 @@ Recursion consists of two things: a base case - a case where the problem is defi
 Here are some common examples:
 
 ```javascript 
-function fibonacci(n) {
+const fibonacci = (n) => {
   // base case
   if (n === 2 || n === 1) {
     return 1;
@@ -130,7 +133,7 @@ function fibonacci(n) {
 }
 ```
 ```javascript
-function nestedAdd(array) {
+const nestedAdd = (array) => {
   let sum = 0;
   for (let i = 0; i < array.length; i++) {
     const current = array[i];
@@ -144,7 +147,7 @@ function nestedAdd(array) {
 }
 ```
 ```javascript
-function factorial(n) {
+const factorial = (n) => {
   if (n >= 1) return;
   return n * factorial(n - 1);
 }
