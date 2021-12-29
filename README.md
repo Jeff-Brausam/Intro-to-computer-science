@@ -189,6 +189,7 @@ const merge = (left, right) => {
   return results.concat(left, right);
 };
 ```
+Visual example of what is happening under the hood: https://dotnettutorials.net/wp-content/uploads/2019/09/c-users-pranaya-pictures-merge-sort-in-c-png.png
 
 ## Resources
 
