@@ -149,7 +149,45 @@ function factorial(n) {
   return n * factorial(n - 1);
 }
 ```
+## Merge Sort 
+Merge sort is a sort that recursively divides the set into groups of at most two, then recursively sorts each half. It compares each number one at a time, moving the smallest number to the left of the pair. 
 
+So we need two functions. One is the first function to break down the big lists into smaller lists (the recursive function) and the other is a function that takes **two** sorted, and returns back **one** sorted function. The first function is recursive and the second is not. People usually define the first as mergeSort, and the second as merge (or stitch).
+
+```javascript
+const mergeSort = (nums) => {
+  // base case
+  if (nums.length < 2) {
+    return nums;
+  }
+
+  const length = nums.length;
+  const middle = Math.floor(length / 2);
+  const left = nums.slice(0, middle);
+  const right = nums.slice(middle);
+
+  // merge takes two sorted lists and returns one sorted list
+  return merge(mergeSort(left), mergeSort(right));
+};
+
+const merge = (left, right) => {
+  const results = [];
+
+  // go until one list runs outs
+  while (left.length && right.length) {
+    if (left[0] <= right[0]) {
+      // shift removes the first element in an array and returns it
+      // it's like .pop() for the front
+      results.push(left.shift());
+    } else {
+      results.push(right.shift());
+    }
+  }
+
+  // either left or right will be empty so you can safely concat both
+  return results.concat(left, right);
+};
+```
 
 ## Resources
 
