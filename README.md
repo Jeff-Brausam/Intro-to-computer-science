@@ -153,11 +153,14 @@ function factorial(n) {
 
 ## Resources
 
+#### General
+Most of these concepts are from here: https://btholt.github.io/complete-intro-to-computer-science/
+
 #### Algorithms
 
 visual algorithms - https://visualgo.net/en
 
 ##### Big O resources
 
-https://web.mit.edu/16.070/www/lecture/big_o.pdf
-https://www.bigocheatsheet.com/
+more educational - https://web.mit.edu/16.070/www/lecture/big_o.pdf
+cheat sheet - https://www.bigocheatsheet.com/
