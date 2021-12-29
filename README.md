@@ -54,7 +54,7 @@ Human time is almost always more valuable than computer time. Sometimes readabil
 
 ## Algorithms
 
-Note: There are probably way more optimized ways of solving these algorithms. These are just written in ways to more easily disect what the algorithm is doing. 
+Note: There are probably way more optimized ways of solving these algorithms. These are just written in ways to disect what the algorithm is doing more easily. 
 
 ## Iterative Sorts
 
@@ -81,6 +81,7 @@ const BubbleSort = (nums) => {
     return nums; 
   };
 ```
+
 #### Insertion Sort 
 
 The insertion sort algorithm does this: You create two parts to your list. You treat the first part of your list as sorted and the second part of your list as unsorted. Its easiest to conceptualize as cards: We start with an empty left hand and the cards face down on the table. We then remove one card at a time from the table and insert it into the correct position in the left hand. To find the correct position for a card, we compare it with each of the cards already in the hand, from right to left. At all times, the cards held in the left hand are sorted, and these cards were originally the top cards of the pile on the table. 
@@ -196,6 +197,36 @@ const merge = (left, right) => {
   return results.concat(left, right);
 };
 ```
+### Quick Sort
+The basic gist of a quick sort, is that you take the last element in the list and call that the pivot. Everything that's smaller than the pivot gets put into a "left" list and everything that's greater get's put in a "right" list. You then call quick sort on the left and right lists independently (hence the recursion.) After those two sorts come back, you concatenate the sorted left list, the pivot, and then the right list (in that order.) The base case is when you have a list of length 1 or 0, where you just return the list given to you.
+
+Something important to note, is the number you use as a pivot does not go into either array. Sorted lists, or reverse sorted lists are actually a disaster for quick sort because of this pivot. There are other versions to mitigate around this, like using quicksort 3. 
+
+<img src="https://btholt.github.io/complete-intro-to-computer-science/static/4a14b48b386ca8457bbbef9063a27135/804b2/quicksort-diagram.png" alt="recursion" height="700px" width="500px"/>
+
+```javascript
+const quickSort = (nums) => {
+  if (nums.length < 2) {
+    return nums;
+  }
+  
+  let pivot = nums[nums.length - 1];
+  
+  let left = []
+  let right = []
+  
+  for (let i = 0; i < nums.length - 1; i++){
+    if(nums[i] < pivot){
+      left.push(nums[i])
+    } else {
+      right.push(nums[i])
+    }
+  }
+
+  return [...quickSort(left), pivot, ...quickSort(right)]
+}
+```
+
 
 ## Resources
 
