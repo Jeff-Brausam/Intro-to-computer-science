@@ -1,4 +1,4 @@
-# Intro to computer science
+# Intro to Computer Science
 
 As a self taught developer I find these concepts difficult to grasp, so these notes are really just to help me understand.
 The goal of this is provide a stronger foundation and understanding of computer science and algorithms.
@@ -50,11 +50,11 @@ Knowing the trade-offs between algorithms is one of the most important skills th
 
 What are your users like? Where do they live? What kind of devices is this program running on? What kind of input or data are you taking in? Is your input already sorted or unsorted? How important is optimizing this?
 
-Human time is almost always more valuable than computer time. Sometimes readability is better than optimization. Only try to optimize as you scale up.
+Human time is almost always more valuable than computer time. Readability is generally better than optimization. Only try to optimize as you hit scaling problems.
 
 ## Algorithms
 
-Note: There are probably way more optimized ways of solving these algorithms. These are just written in ways to disect what the algorithm is doing more easily. 
+Note: There are probably better and more optimized ways of solving these algorithms. These are just written in ways to more easily disect what the algorithm is doing.
 
 ## Iterative Sorts
 
@@ -63,6 +63,8 @@ Note: There are probably way more optimized ways of solving these algorithms. Th
 The bubble sort algorithm does this: Go through each number individually in a list, and assess whether or not the number on the left is bigger or smaller, if it is bigger the two numbers switch places. 
 
 This algorithm is really never used, if ever in the real world. 
+
+<img src="https://btholt.github.io/complete-intro-to-computer-science/e164c2436ed5486ed13e54135a1d009a/bubblesort.gif" alt="bubble sort" width="300" height="200" />
 
 ```javascript 
 const BubbleSort = (nums) => { 
@@ -82,6 +84,7 @@ const BubbleSort = (nums) => {
   };
 ```
 
+
 #### Insertion Sort 
 
 The insertion sort algorithm does this: You create two parts to your list. You treat the first part of your list as sorted and the second part of your list as unsorted. Its easiest to conceptualize as cards: We start with an empty left hand and the cards face down on the table. We then remove one card at a time from the table and insert it into the correct position in the left hand. To find the correct position for a card, we compare it with each of the cards already in the hand, from right to left. At all times, the cards held in the left hand are sorted, and these cards were originally the top cards of the pile on the table. 
@@ -89,6 +92,8 @@ The insertion sort algorithm does this: You create two parts to your list. You t
 The algorithm sorts the input numbers in place: it rearranges the numbers within the array A, with at most a constant number of them stored outside the array at any time. The input array A contains the sorted output sequence when the INSERTION-SORT procedure is finished.
 
 Below the insertion algorithm solved like this. By definition a list of one is already sorted, so most people treat the first index (of [0]) as sorted, and the rest unsorted. From there, you start with the next element in the list (in this case, the [1] index, the second element) and loop backwards over our sorted list, asking "is the element that I'm looking to insert larger than what's here? If not, you work your way to the back of the array. If you land at the first element of the sorted part of the list, what you have is smaller than everything else and you put it at the start. You then repeat this until you've done it over the whole list!
+
+<img src="https://btholt.github.io/complete-intro-to-computer-science/e1c75fd04db2c886c086edd156ba5ff2/insertionsort.gif" alt="" width="200" height="300" />
 
 
 ```javascript
@@ -159,9 +164,9 @@ Merge sort is a sort that recursively divides the set into groups of at most two
 
 So we need two functions. One is the first function to break down the big lists into smaller lists (the recursive function) and the other is a function that takes **two** sorted, and returns back **one** sorted function. The first function is recursive and the second is not. People usually define the first as mergeSort, and the second as merge (or stitch).
  
-<img src="https://dotnettutorials.net/wp-content/uploads/2019/09/c-users-pranaya-pictures-merge-sort-in-c-png.png" alt="recursion" height="500px" width="500px"/>
+Most javascript engines live v8 will use merge sort under the hood for the .sort method. Some other engines use quick sort.  
 
-Most javascript engines actually use merge sort under the hood for the .sort method. Sometimes it will be quick sort. 
+<img src="https://btholt.github.io/complete-intro-to-computer-science/a29c0dd0186d1f8cef3c5ebdedf3e5a3/mergesort.gif" alt="" width="300" height="200" />
 
 ```javascript
 const mergeSort = (nums) => {
@@ -200,9 +205,11 @@ const merge = (left, right) => {
 ### Quick Sort
 The basic gist of a quick sort, is that you take the last element in the list and call that the pivot. Everything that's smaller than the pivot gets put into a "left" list and everything that's greater get's put in a "right" list. You then call quick sort on the left and right lists independently (hence the recursion.) After those two sorts come back, you concatenate the sorted left list, the pivot, and then the right list (in that order.) The base case is when you have a list of length 1 or 0, where you just return the list given to you.
 
-Something important to note, is the number you use as a pivot does not go into either array. Sorted lists, or reverse sorted lists are actually a disaster for quick sort because of this pivot. There are other versions to mitigate around this, like using quicksort 3. 
+Something important to note, is the number you use as a pivot does not go into either array. It is just used as a reference to essentially create less comparisons.
 
-<img src="https://btholt.github.io/complete-intro-to-computer-science/static/4a14b48b386ca8457bbbef9063a27135/804b2/quicksort-diagram.png" alt="recursion" height="700px" width="500px"/>
+Sorted lists, or reverse sorted lists are actually a disaster for quick sort because of this pivot. There are other versions to mitigate around this, like using quicksort 3. 
+
+<img src="https://btholt.github.io/complete-intro-to-computer-science/static/4a14b48b386ca8457bbbef9063a27135/804b2/quicksort-diagram.png" alt="recursion" height="700px" width="400px" />
 
 ```javascript
 const quickSort = (nums) => {
@@ -223,10 +230,67 @@ const quickSort = (nums) => {
     }
   }
 
-  return [...quickSort(left), pivot, ...quickSort(right)]
+  return [...quickSort(left), pivot, ...quickSort(right)];
 }
 ```
 
+
+
+## Non-Comparison Sorts
+### Radix Sort
+
+Radix sort is an integer sorting algorithm that sorts data with integer keys by grouping the keys by individual digits that share the same significant position and value (place value). There are no actual number compares with this kind of algorithm (no if one number is greater than the other). It is just simply checking from the furthest right digit, sorting those it into buckets (an array that holds and 10 arrays, one for each digit 0-9), then dequeueing it back the next 10s place until it loops through all of the numbers. 
+
+Radix sort is useful when you start dealing with huge numbers such as 50,000, but if it something like 500, other sorting algorithms would be more efficent.
+
+https://user-images.githubusercontent.com/48197040/147708321-fbb68800-f952-4944-9280-ddde7e19988f.mp4
+
+
+```javascript
+function getDigit(number, place, longestNumber) {
+  const string = number.toString();
+  const size = string.length;
+
+  const mod = longestNumber - size;
+  return string[place - mod] || 0;
+}
+
+function findLongestNumber(array) {
+  let longest = 0;
+  for (let i = 0; i < array.length; i++) {
+    const currentLength = array[i].toString().length;
+    longest = currentLength > longest ? currentLength : longest;
+  }
+  return longest;
+  /* 
+   Alternatively you can do this 
+   let largest = Math.max(...array).toString().length; 
+      return largest;
+   */
+}
+
+function radixSort(array) {
+  const longestNumber = findLongestNumber(array);
+
+  const buckets = new Array(10).fill().map(() => []); // make an array of 10 arrays
+
+  for (let i = longestNumber - 1; i >= 0; i--) {
+    // Enqueue into the buckets
+    while (array.length) {
+      const current = array.shift();
+      buckets[getDigit(current, i, longestNumber)].push(current);
+    }
+    // Dequeue from the buckets
+    for (let j = 0; j < 10; j++) {
+      while (buckets[j].length) {
+        array.push(buckets[j].shift());
+      }
+    }
+  }
+
+  return array;
+}
+```
 
 ## Resources
 
@@ -235,9 +299,9 @@ Most of these concepts are from here: https://btholt.github.io/complete-intro-to
 
 #### Algorithms
 
-visual algorithms - https://visualgo.net/en
+Visual Algorithms - https://visualgo.net/en
 
 ##### Big O resources
 
-more educational - https://web.mit.edu/16.070/www/lecture/big_o.pdf
-cheat sheet - https://www.bigocheatsheet.com/
+https://web.mit.edu/16.070/www/lecture/big_o.pdf
+https://www.bigocheatsheet.com/
