@@ -80,11 +80,12 @@ const BubbleSort = (nums) => {
 ```
 #### Insertion Sort 
 
-Insertion sort is an algorithm that does this: You create two parts to your list. You treat the first part of your list as sorted and the second part of your list as unsorted. By definition a list of one is already sorted, so most people treat the first index (of [0]) as sorted, and the rest unsorted. From there, you start with the next element in the list (in this case, the [1] index, the second element) and loop backwards over our sorted list, asking "is the element that I'm looking to insert larger than what's here? If not, you work your way to the back of the array. If you land at the first element of the sorted part of the list, what you have is smaller than everything else and you put it at the start. You then repeat this until you've done it over the whole list!
-
-Its easiest to conceptualize as cards: We start with an empty left hand and the cards face down on the table. We then remove one card at a time from the table and insert it into the correct position in the left hand. To find the correct position for a card, we compare it with each of the cards already in the hand, from right to left. At all times, the cards held in the left hand are sorted, and these cards were originally the top cards of the pile on the table. 
+Insertion sort is an algorithm that does this: You create two parts to your list. You treat the first part of your list as sorted and the second part of your list as unsorted. Its easiest to conceptualize as cards: We start with an empty left hand and the cards face down on the table. We then remove one card at a time from the table and insert it into the correct position in the left hand. To find the correct position for a card, we compare it with each of the cards already in the hand, from right to left. At all times, the cards held in the left hand are sorted, and these cards were originally the top cards of the pile on the table. 
 
 The algorithm sorts the input numbers in place: it rearranges the numbers within the array A, with at most a constant number of them stored outside the array at any time. The input array A contains the sorted output sequence when the INSERTION-SORT procedure is finished.
+
+Below the insertion algorithm solved like this. By definition a list of one is already sorted, so most people treat the first index (of [0]) as sorted, and the rest unsorted. From there, you start with the next element in the list (in this case, the [1] index, the second element) and loop backwards over our sorted list, asking "is the element that I'm looking to insert larger than what's here? If not, you work your way to the back of the array. If you land at the first element of the sorted part of the list, what you have is smaller than everything else and you put it at the start. You then repeat this until you've done it over the whole list!
+
 
 ```javascript
 const InsertionSort = (arr) => {
@@ -104,6 +105,51 @@ const InsertionSort = (arr) => {
 
 ##### When would I use an insertion sort over a quick/merge sort?
 The case in which you would use an insertion sort is when a list is pretty close to already being sorted. But if it isn't, then something like merge or quick sort would be better.
+
+## Recursion
+The point of recursion is to break down a problem, into smaller problems, until you have a problem that you can solve.
+Rather than using loops, you instead are having the function call itself until solved.
+  
+The tradeoff is readability vs performance. Frequently but not always an iterative solution will be faster and more efficent as the problem scales. Realizing these patterns is extremely important, as you will see the concept of recursion in merge and quick sorts. 
+
+Recursion consists of two things: a base case - a case where the problem is defined as complete, and a recursive call - a call to the same function, until it solves itself.
+
+Here are some common examples:
+
+```javascript 
+function fibonacci(n) {
+  // base case
+  if (n === 2 || n === 1) {
+    return 1;
+  } else if (n <= 0) {
+    return 0;
+  }
+
+  // recursive calls
+  return fibonacci(n - 1) + fibonacci(n - 2);
+}
+```
+```javascript
+function nestedAdd(array) {
+  let sum = 0;
+  for (let i = 0; i < array.length; i++) {
+    const current = array[i];
+    if (Array.isArray(current)) {
+      sum += nestedAdd(current);
+    } else {
+      sum += current;
+    }
+  }
+  return sum;
+}
+```
+```javascript
+function factorial(n) {
+  if (n >= 1) return;
+  return n * factorial(n - 1);
+}
+```
+
 
 ## Resources
 
