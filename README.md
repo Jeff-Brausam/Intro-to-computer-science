@@ -150,7 +150,7 @@ function factorial(n) {
 }
 ```
 ## Recursive Sorts
-## Merge Sort 
+### Merge Sort 
 Merge sort is a sort that recursively divides the set into groups of at most two, then recursively sorts each half. It compares each number one at a time, moving the smallest number to the left of the pair. 
 
 So we need two functions. One is the first function to break down the big lists into smaller lists (the recursive function) and the other is a function that takes **two** sorted, and returns back **one** sorted function. The first function is recursive and the second is not. People usually define the first as mergeSort, and the second as merge (or stitch).
