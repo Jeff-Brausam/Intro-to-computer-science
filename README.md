@@ -1,7 +1,8 @@
 # Intro to Computer Science
 
 As a self taught developer I find these concepts difficult to grasp, so these notes are really just to help me understand.
-The goal of this is provide a stronger foundation and understanding of computer science and algorithms.
+The goal of this is provide a stronger foundation and understanding of computer science and algorithms. This is all coming from a 
+web developer standpoint, so solutions are written in Javascript.
 
 ## The Big O notation
 
@@ -239,7 +240,7 @@ const quickSort = (nums) => {
 ## Non-Comparison Sorts
 ### Radix Sort
 
-Radix sort is an integer sorting algorithm that sorts data with integer keys by grouping the keys by individual digits that share the same significant position and value (place value). There are no actual number compares with this kind of algorithm (no if one number is greater than the other). It is just simply checking from the furthest right digit, sorting those it into buckets (an array that holds and 10 arrays, one for each digit 0-9), then dequeueing it back the next 10s place until it loops through all of the numbers. 
+Radix sort is an sorting algorithm that sorts data with integer keys by grouping the keys by individual digits that share the same significant position and value (place value). There are no actual number compares with this kind of algorithm (no if one number is greater than the other). It is just simply checking from the furthest right digit, sorting those it into buckets (an array that holds and 10 arrays, one for each digit 0-9), then dequeueing it back the next 10s place until it loops through all of the numbers. 
 
 Radix sort is useful when you start dealing with huge numbers such as 50,000, but if it something like 500, other sorting algorithms would be more efficent.
 
@@ -289,6 +290,74 @@ function radixSort(array) {
   }
 
   return array;
+}
+```
+## Binary Search
+Binary search is an algorithm that takes a **sorted** list, and an item and does something similar to this situation. Say you have a phonebook and you are looking for a name. Rather than going a page at a time (linear or simple search, like a for loop), you'll open the book more or less to the middle (or say you do, for argument's sake.) From there, if the name you're looking for is smaller/earlier in the alphabet, you'll go halfway to the smaller/earlier side of the book, and so-on-and-so-forth, keeping going halfway until eventually you land on the name you're looking for. 
+
+```javascript
+const BinarySearch = (sortedlist, item) => {
+  let low = 0;
+  let high = sortedlist.length - 1;
+
+  while (low <= high) {
+    let middle = low + high;
+    let guess = sortedlist[middle];
+
+    if (guess == item) {
+      return Math.floor(middle);
+    }
+    if (guess > item) {
+      high = middle - 1;
+    } else {
+      low = middle + 1;
+    }
+  }
+
+  return null;
+};
+```
+
+## Arrays
+## Array List
+This is actually a bit of a moot point for JavaScript developers: we have normal arrays and no choice beyond anything in the matter. In other languages, however, there are multiple types of array and you choose which one you need based on the sort operations you intend on doing on that array. Lets say there is no such thing as an array in Javascript. We only have one thing: objects. So we'd need to implement the array numbering ourselves. But not just that, we'd have to implment adding numbers, removing numbers, getting numbers, etc. 
+
+Array list struggles when it comes to having to add something in the middle, or deleting items off the array, because then everything else has to shift. They are good though for things you have to do a lot of lookups on, or addition (adding things to the end). This is to implement a dynamic array.
+
+```javascript
+class ArrayList {
+  constructor() {
+    this.length = 0;
+    this.data = {};
+  }
+  push(value) {
+    this.data[this.length] = value;
+    this.length++;
+  }
+  pop() {
+    const ans = this.data[this.length - 1];
+    delete this.data[this.length - 1];
+    this.length--;
+    return ans;
+  }
+  get(index) {
+    return this.data[index];
+  }
+  delete(index) {
+    const ans = this.data[index];
+    this._collapseTo(index);
+    return ans;
+  }
+  _collapseTo(index) {
+    for (let i = index; i < this.length; i++) {
+      this.data[i] = this.data[i + 1];
+    }
+    delete this.data[this.length - 1];
+    this.length--;
+  }
+  serialize() {
+    return this.data;
+  }
 }
 ```
 
