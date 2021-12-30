@@ -360,7 +360,108 @@ class ArrayList {
   }
 }
 ```
+## Linked List
+LinkedList is made of a bunch of nodes that point to the next one in the list. Every node in a LinkedLists has two properties, the value of whatever is being store and a pointer to the next node in the list. These nodes will not be sequential in memory, meaning we don't get the easy lookups but the advantage is that adding things is easy since we don't have to do the compacting we had to do with ArrayList.
 
+The main thing that gives LinkedList an advantage over ArrayList, is that the inserts and deletes work great. It is ideal when you're doing a lot of writes and deletions. In general, ArrayList tends to be the most generally useful because the lookup speed is so helpful, but LinkedLists definitely have their place.
+
+There are variations of LinkedList, called the Double LinkedList. Rather then just having a forward, it also has a previous. You really never have to worry about these in Javascript because arrays are quite optimized, but in other languages like C or Java it could make a pretty big difference. With Linkedlists you do better with memory since you do not have to define it, but ArrayLists require you to define it.
+
+```javascript
+class LinkedList {
+  constructor() {
+    this.tail = this.head = null;
+    this.length = 0;
+  }
+  push(value) {
+    const node = new Node(value);
+    this.length++;
+    if (!this.head) {
+      this.head = node;
+    } else {
+      this.tail.next = node;
+    }
+    this.tail = node;
+  }
+  pop() {
+    if (!this.head) return null;
+    if (this.head === this.tail) {
+      const node = this.head;
+      this.head = this.tail = null;
+      return node.value;
+    }
+    const penultimate = this._find(
+      null,
+      (value, nodeValue, i, current) => current.next === this.tail
+    );
+    const ans = penultimate.next.value;
+    penultimate.next = null;
+    this.tail = penultimate;
+    this.length--;
+    return ans;
+  }
+  _find(value, test = this.test) {
+    let current = this.head;
+    let i = 0;
+    while (current) {
+      if (test(value, current.value, i, current)) {
+        return current;
+      }
+      current = current.next;
+      i++;
+    }
+    return null;
+  }
+  get(index) {
+    const node = this._find(index, this.testIndex);
+    if (!node) return null;
+    return node.value;
+  }
+  delete(index) {
+    if (index === 0) {
+      const head = this.head;
+      if (head) {
+        this.head = head.next;
+      } else {
+        this.head = null;
+      }
+      this.length--;
+      return head.value;
+    }
+
+    const node = this._find(index - 1, this.testIndex);
+    const excise = node.next;
+    if (!excise) return null;
+    node.next = excise.next;
+    if (!node.next.next) this.tail = node.next;
+    this.length--;
+    return excise.value;
+  }
+  test(search, nodeValue) {
+    return search === nodeValue;
+  }
+  testIndex(search, __, i) {
+    return search === i;
+  }
+  serialize() {
+    const ans = [];
+    let current = this.head;
+    if (!current) return ans;
+    while (current) {
+      ans.push(current.value);
+      current = current.next;
+    }
+    return ans;
+  }
+}
+
+class Node {
+  constructor(value) {
+    this.value = value;
+    this.next = null;
+  }
+}
+```
 ## Resources
 
 #### General
