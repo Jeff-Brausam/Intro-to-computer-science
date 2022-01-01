@@ -857,11 +857,29 @@ Graphs are all about modeling relations between many items. For example, think o
 
 In the Facebook example, each person would be a node. A node represents some entity, much like a row in an SQL database. Every so-called "friendship" would be called an edge. An edge represents some connection between two items. In this case, our Facebook friendship is bidirectional: if I'm friends with you then you're friends with me. Twitter would be an example of a unidirectional edge: just because I follow you doesn't mean you follow me.
 
+## Tries
+Tries are a tree that's optimized for searching by prefix. The classic example of what you would use this for is autocomplete: you know when you type in "San" and it offers suggestions of what to finish with like "Francisco", "Diego", or "Jose". Tries are really useful for that.
+
+So let's examine what looks like. A trie starts with a root node that doesn't represent anything (often it's given the value of '' (empty string.) It has a bunch of child nodes (as many are necessary) that represent one letter, the first letter of all the words added to the data structure. Each of those letter-nodes will have children nodes for all the second letters of the words that are represented in the data structure. So on and so forth, there will be a chain of nodes that represent each letter in the data structure.
+
+## Bloom Filters
+Bloom filters are an interesting data structure which are designed to tell you quickly and efficiently if an item is in a set. If you need a reminder of what a set is, see the previous course. In exchange for being really fast and memory efficient, bloom filters trade off the fact that it can't tell you definitely if an item is in the set; it can only tell you definitely that item is not in the set. Stated differently, bloom filters have a false positive rate but do not have false negatives.
+
+Here is an example of how it should work:
+
+Imagine you have an array with ten elements in it. Every element in the array is a 0 bit. This is an empty bloom filter. Now we want to add "Brian" to the array. I'm going to run "Brian" through three different hashing functions (see previous course for explanation on hashing functions.) Each hashing function should be fast and definitely not cryptographically secure (which are by-design slow.) This means don't use SHA or MD5. They should also have a uniform distribution as much as possible.
+
+Okay, so I run my string through three different hashing functions and they give me 2, 5, and 8 (I'm making up the numbers; we won't implement hashing functions so it doesn't really matter how they work.) I'll flip all those bits at those indexes so my new array is [0, 0, 1, 0, 0, 1, 0, 0, 1, 0].
+
+After doing this, I'll check to see if "Sarah" is in the array. After running through the hashing function, they give 2, 2, and 4. 2 is flipped but 4 is not, so I can definitively say that "Sarah" is not in the data set.
+
+So let's add one more item to the array, "Simona". The indexes we get back 0, 4, and 5. So now our array is [1, 0, 1, 0, 1, 1, 0, 0, 1, 0]. We flip both 0 and 4 indexes and 5 was already flipped so we do nothing to it. Now what happens if we check "Sarah" again? This time we'll get a false positive that "Sarah" is in the dataset. That's why the two answers you can get back from the question "Is X in the bloom filter" are no and maybe.
+
 ## Resources
 #### General
 Most of these concepts are from here: https://btholt.github.io/complete-intro-to-computer-science/
 
-#### Algorithms
+##### Algorithms
 
 Visual Algorithms - https://visualgo.net/en
 
@@ -869,3 +887,6 @@ Visual Algorithms - https://visualgo.net/en
 
 https://web.mit.edu/16.070/www/lecture/big_o.pdf
 https://www.bigocheatsheet.com/
+
+##### Pathfinding
+https://qiao.github.io/PathFinding.js/visual/
