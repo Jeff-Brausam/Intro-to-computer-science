@@ -471,7 +471,7 @@ So we have one node that is the root. That node can have a left child and a righ
 
 The average case scinario of lookups in the tree are log(n). A place that uses trees for lookups are database indexes, so if you get IDs from MondoDB, and want an index, it will build a tree out of all of your ideas and have pointers to other IDs. Maybe not binary but certainly a tree.
 
-<img src="https://btholt.github.io/complete-intro-to-computer-science/static/8333499546d84a58751a5a12a8f34e9b/533c1/bst.png" width="500px" height="500px" />
+<img src="https://btholt.github.io/complete-intro-to-computer-science/static/8333499546d84a58751a5a12a8f34e9b/533c1/bst.png" width="300px" height="300px" />
 
 ```javascript
 class Tree {
