@@ -463,8 +463,73 @@ class Node {
   }
 }
 ```
-## Resources
+## Trees
+## Binary Search Tree
+Trees are another way to structure data. Binary search tree has to be in a sorted order just like a binary search does. At its core, a tree is very similar to a LinkedList. You have nodes. Those nodes have values and pointers to other nodes. Unlike a LinkedList which only has one next pointer (or maybe a next and previous) trees can have many pointers. This hiearchy is important to remember, as one node splits into two, and that splits in the same pattern from there. A binary tree will have two children at most. 
 
+So we have one node that is the root. That node can have a left child and a right child. It can have both, one, or neither. Every node has a value. Both children are nodes just like the root: they can 0-2 children as well and will always have a value (there are no nodes without values.) Every value in a node's left tree is smaller than its value and every node in its right tree is larger than its value. Values that are equal can go either way, just be consistent. In the example below, everything below 8 has to live on the left side, everything above has to be on the right. You need to make sure you understand this concept and are able to notice it in your code, otherwise it does not fit as a binary search tree (it could be another though). Notice how it is consistent, if the number is higher than the last it goes to the right, if smaller it does to the left.
+
+The average case scinario of lookups in the tree are log(n). A place that uses trees for lookups are database indexes, so if you get IDs from MondoDB, and want an index, it will build a tree out of all of your ideas and have pointers to other IDs. Maybe not binary but certainly a tree.
+
+<img src="https://btholt.github.io/complete-intro-to-computer-science/static/8333499546d84a58751a5a12a8f34e9b/533c1/bst.png" width="500px" height="500px" />
+
+```javascript
+class Tree {
+  constructor() {
+    this.root = null;
+  }
+  add(value) {
+    if (this.root === null) {
+      this.root = new Node(value);
+    } else {
+      let current = this.root;
+      while (true) {
+        if (current.value > value) {
+          // go left
+
+          if (current.left) {
+            current = current.left;
+          } else {
+            current.left = new Node(value);
+            break;
+          }
+        } else {
+          // go right
+          if (current.right) {
+            current = current.right;
+          } else {
+            current.right = new Node(value);
+            break;
+          }
+        }
+      }
+    }
+    return this;
+  }
+  toJSON() {
+    return JSON.stringify(this.root.serialize(), null, 4);
+  }
+  toObject() {
+    return this.root.serialize();
+  }
+}
+
+class Node {
+  constructor(value = null, left = null, right = null) {
+    this.left = left;
+    this.right = right;
+    this.value = value;
+  }
+  serialize() {
+    const ans = { value: this.value };
+    ans.left = this.left === null ? null : this.left.serialize();
+    ans.right = this.right === null ? null : this.right.serialize();
+    return ans;
+  }
+}
+```
+
+## Resources
 #### General
 Most of these concepts are from here: https://btholt.github.io/complete-intro-to-computer-science/
 
