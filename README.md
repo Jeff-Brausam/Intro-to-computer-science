@@ -531,12 +531,12 @@ class Node {
 ## AVL Tree
 AVL tree is a self balancing tree, but like a binary tree it is almost never used in production. We are just using these as easy examples to explain trees. Most of the concepts are similar to the binary tree, except when adding to an AVL tree, you do this thing called a balancing. A balancing allows you to make sure you have a balanced tree. 
 
-The basic idea for rebalncing, is that if one side of tree gets too heavy (i.e. the max height of one of its children is two more than the max height of the other child) then we need to perform a rotation to get the tree back in balance. 
+The basic idea for rebalncing, is that if one side of tree gets too heavy (i.e. the max height of one of its children is two more than the max height of the other child) then we need to perform a rotation to get the tree back in balance. A time you want to use self balancing trees and not just AVL, is when you have huge amounts of data (like 1000 things not 100), and you need to find things very quickly. You are willing to sacrifice add performance, and delete performance, for extreme searchability.  
 
 #### Single Rotation
 https://user-images.githubusercontent.com/48197040/147845156-430d5c5c-205f-4951-9f1d-0cc3ccad261d.mp4
 
-There is a generalized formula you can use for rotations, in which you essentially use in a single or double rotation. Here is a generalized formula for a right rotation (if you ever implement a left just mirror this).
+There is a generalized formula you can use for rotations, in which you essentially use in a single or double rotation. Here is a generalized formula for a right rotation (if you ever implement a left just mirror this). The real main goal of a rotation is to make a tree flatter so searching is faster.
 
 1. swap the values of nodes A and B
 2. make node B the left child of node A
@@ -675,7 +675,43 @@ class Node {
   }
 }
 ```
+## Traversals
+Trees are an essential part of storing data, or at computer scientists like to refer them as, data structures. Among their benefits is that they're optimized to be searchable. Occasionally you need to serialize the entire tree into a flat data structure (a tree into an array). You can do that with traversals.
 
+## Depth First Traversal
+There are different ways you can traverse a tree. The first one to talk about is the preoder traversal. The basic gist is that for each of the nodes, you process the node (in our case, save it to an array since we're serializing this tree,) then process the left subtree and then the right tree. In preorder traversal, you process the node, then recursively call the method on the left subtree and then the right subtree.
+
+In inorder traversal, you first recursively call the method on the left tree, then process the node, and then call the method on the right tree.
+
+Postorder traversal, you recursively call the method on the left subtree, then the left subtree, then you process the node. 
+
+It all depends on what you're doing on which of these you use. For a sorted list out of a BST, you'd want to use inorder. If you're making a deep copy of a tree, preorder traversal is super useful since you'd copy a node, and then add its left child and then its right tree. Postorder would be useful if you're deleting a tree since you'd process the left tree, then the right, and only after the children had been deleted would you delete the node you're working on.
+
+```javascript
+const preorderTraverse = (node, array) => {
+  if (!node) return array;
+  array.push(node.value);
+  array = preorderTraverse(node.left, array);
+  array = preorderTraverse(node.right, array);
+  return array;
+};
+
+const inorderTraverse = (node, array) => {
+  if (!node) return array;
+  array = inorderTraverse(node.left, array);
+  array.push(node.value);
+  array = inorderTraverse(node.right, array);
+  return array;
+};
+
+const postorderTraverse = (node, array) => {
+  if (!node) return array;
+  array = preorderTraverse(node.left, array);
+  array = preorderTraverse(node.right, array);
+  array.push(node.value);
+  return array;
+};
+```
 ## Resources
 #### General
 Most of these concepts are from here: https://btholt.github.io/complete-intro-to-computer-science/
