@@ -706,8 +706,8 @@ const inorderTraverse = (node, array) => {
 
 const postorderTraverse = (node, array) => {
   if (!node) return array;
-  array = preorderTraverse(node.left, array);
-  array = preorderTraverse(node.right, array);
+  array = postorderTraverse(node.left, array);
+  array = postorderTraverse(node.right, array);
   array.push(node.value);
   return array;
 };
