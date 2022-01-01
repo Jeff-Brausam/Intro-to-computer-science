@@ -53,6 +53,30 @@ What are your users like? Where do they live? What kind of devices is this progr
 
 Human time is almost always more valuable than computer time. Readability is generally better than optimization. Only try to optimize as you hit scaling problems.
 
+## Data Structures
+### What is a data structure? 
+A data structure is an arrangement of data, you can define a way that you interact with this data and the way it is arranged in memory. Some data structures are continuous blocks of memory, in which they are located next to eachother (like an array). You have ordered data structures, hierarchical which have parent child relationships, or complex relationships. You can model real world things with data, but you need to structure it properly so that you can do particular operations on that data structure. 
+
+Think of the DOM, you interact with it all the time but it really at its core is a tree. If you had performance issues and bottlenecks, knowing how you are traversing something will greatly help performance. 
+
+Here are some common data structures and what they are used for. 
+
+| Data Structure   | Common Uses         |
+| ------------ | --------------- |
+| Arrays & Strings         | ordered data, words        |
+| Hash Tables    | optimization |
+| Linked Lists | data insert/delete |
+| Stackes/Queues       | creative aux DS          |
+| Trees, Heaps        | hierchal data       |
+| Graphs        | complex relationships      |
+
+## Stacks and Queues
+Stacks and queues are very similar to eachother. They are an ordered data structure that have opinions about the order in which things can be inserted and removed. These pretty much underly everything that you do.
+
+For a stack, imagine it like a stack of plates. You stack them on top of eachother, and you take the last one out when removing it. Stacks store items in a last in, first out order (LIFO).
+
+For a queue, think of waiting in line for something. You would stack it up, but always take from the bottom. A stack stores items in a first in, first out order (FIFO).
+
 ## Algorithms
 
 Note: There are probably better and more optimized ways of solving these algorithms. These are just written in ways to more easily disect what the algorithm is doing.
@@ -687,6 +711,8 @@ Postorder traversal, you recursively call the method on the left subtree, then t
 
 It all depends on what you're doing on which of these you use. For a sorted list out of a BST, you'd want to use inorder. If you're making a deep copy of a tree, preorder traversal is super useful since you'd copy a node, and then add its left child and then its right tree. Postorder would be useful if you're deleting a tree since you'd process the left tree, then the right, and only after the children had been deleted would you delete the node you're working on.
 
+<img src="https://btholt.github.io/complete-intro-to-computer-science/static/8333499546d84a58751a5a12a8f34e9b/533c1/bst.png" height="300" width="300" />
+
 ```javascript
 const preorderTraverse = (node, array) => {
   if (!node) return array;
@@ -712,6 +738,39 @@ const postorderTraverse = (node, array) => {
   return array;
 };
 ```
+## Breadth First Traversal
+Breadth-first isn't recursive processing of subtrees like depth-first. Instead we want to process one layer at a time. Using the tree above, we want the resulting order to [8, 3, 10, 1, 6, 14, 4, 7, 13]. In other words, we start at the root, and slowly make our way "down" the tree. 
+
+The way we accomplish this is using our old friend, the queue. A queue is an array that the first thing you into is the first thing you get out of it (FIFO, first in first out, as opposed a stack which is first in last out, FILO.) Another way of thinking about it is that if you call dequeue on a queue, the item that has been in there the longest is the one that comes out.
+
+What you should do to achieve this, is process the node, then add the left child to the queue and then add the right child to the queue. After that, we'll just dequeue an item off of the queue and call our function recursively on that node. You keep going until there's no items left in the queue. The benefit of using a breadth first traversal is nearness from one node to another. It ends up being the more useful of traversals. You can traverse this recursively or iteratively. 
+
+```javascript
+// recursive
+const breadthFirstTraverse = (queue, array) => {
+  if (!queue.length) return array;
+  const node = queue.shift();
+  array.push(node.value);
+  if (node.left) queue.push(node.left);
+  if (node.right) queue.push(node.right);
+  return breadthFirstTraverse(queue, array);
+};
+
+// iterative
+const breadthFirstTraverse2 = (queue, array) => {
+  if (!queue.length) return array;
+
+  while (queue.length) {
+    const node = queue.shift();
+    array.push(node.value);
+    if (node.left) queue.push(node.left);
+    if (node.right) queue.push(node.right);
+  }
+
+  return array;
+};
+```
+
 ## Resources
 #### General
 Most of these concepts are from here: https://btholt.github.io/complete-intro-to-computer-science/
