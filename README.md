@@ -75,7 +75,99 @@ Stacks and queues are very similar to eachother. They are an ordered data struct
 
 For a stack, imagine it like a stack of plates. You stack them on top of eachother, and you take the last one out when removing it. Stacks store items in a last in, first out order (LIFO).
 
+An example in code would look similar to this. These are beneficial if you have to implement an undo button, to remove the most recent changes. 
+
+```javascript
+const stack = [0,1,2,3,4]
+// add to the stack
+stack.push(5)
+// would make the array [0,1,2,3,4,5]
+// remove from the stack
+stack.pop()
+// would make the array [0,1,2,3,4]
+```
+
 For a queue, think of waiting in line for something. You would stack it up, but always take from the bottom. A stack stores items in a first in, first out order (FIFO).
+
+```javascript
+const queue = [0,1,2,3,4];
+// add the the queue
+stack.enqueue(5);
+// would make the array [0,1,2,3,4,5]
+stack.dequeue()
+// would make the array [1,2,3,4,5]
+```
+
+## Hash Tables
+A hash table organizes data for quick lookup on values for a given key. Hash tables are not ordered. The pros of using a hash table are fast lookups, and flexible keys. Some cons are slow worst-case lookups, its unordered, and single-directional lookups. The underlying structure is the same concept as objects, or maps. 
+
+The gist of it is there is a hashing function, (in which most cases is a string), and hashes it to a numberical value, that is where something is going to be stored. In this case a index of an array, but it would be an memory address. You have it hash within a range (however big of an object you have), and what you input inside a hashing function should always end up the same in a hash table. 
+
+One way to make this work dynamically, is when your hash table ends up half way full, you double the size of the hash table for more storage, and then you just rehash everything. This has just been proven as an efficent method.
+
+```javascript
+class HashTable {
+  constructor(val) {
+    this._storage = [];
+    this._tableSize = val;
+    this._inputSize = 0;
+  }
+  /*
+  * Inserts a new key-value pair
+  * @param {string} key - the key associated with the value
+  * @param {*} value - the value to insert
+  */
+  insert(key, value) {
+    const index = this._hash(key, this._tableSize);
+
+    if (!this._storage[index]) {
+      this._storage[index] = []; 
+    }
+    //TODO: loop through array and find if key was already inserted
+    this._storage[index].push([key, value]);
+  }
+  /*
+  * Deletes a key-value pair
+  * @param {string} key - the key associated with the value
+  * @return {*} value - the deleted value
+  */
+  remove() {
+
+  }
+  /*
+  * Returns the value associated with a key
+  * @param {string} key - the key to search for
+  * @return {*} - the value associated with the key
+  */
+  //  { _storage: [0,0,0,[['a', 1], ['b',2],0,0,0] }
+  retrieve(key) {
+    const index = this._hash(key, this._tableSize);
+    const arrayAtIndex = this._storage[index];
+
+    if (arrayAtIndex) {
+      for (let i = 0; i < arrayAtIndex.length; i++) {
+        const keyValueArray = arrayAtIndex[i];
+        if (keyValueArray[0] === key) return keyValueArray[1];
+      }
+    }
+
+  }  
+  /*
+  * Hashes string value into an integer that can be mapped to an array index
+  * @param {string} str - the string to be hashed
+  * @param {number} n - the size of the storage array
+  * @return {number} - an integer between 0 and n
+  */
+  _hash(str, n) {
+    let sum = 0;
+    for (let i = 0; i < str.length; i++)
+        sum += str.charCodeAt(i) * 3
+
+    return sum % n;
+  }
+}```
+## Arrays
+Arrays are used to organize items sequentially in memory. The pros are fast lookups and appends. A con is the slow inserts and deletes. 
 
 ## Algorithms
 
@@ -259,8 +351,6 @@ const quickSort = (nums) => {
 }
 ```
 
-
-
 ## Non-Comparison Sorts
 ### Radix Sort
 
@@ -384,12 +474,15 @@ class ArrayList {
   }
 }
 ```
+
 ## Linked List
-LinkedList is made of a bunch of nodes that point to the next one in the list. Every node in a LinkedLists has two properties, the value of whatever is being store and a pointer to the next node in the list. These nodes will not be sequential in memory, meaning we don't get the easy lookups but the advantage is that adding things is easy since we don't have to do the compacting we had to do with ArrayList.
+LinkedList is made of a bunch of nodes that point to the next one in the list. Every node in a LinkedLists has two properties, the value of whatever is being store and a pointer to the next node in the list. A linked list organizes items sequentially, with a pointer to the next. The benefits are the quick operations on the ends, and its flexible size. A downsize it the lookups end up being quite costly. 
 
 The main thing that gives LinkedList an advantage over ArrayList, is that the inserts and deletes work great. It is ideal when you're doing a lot of writes and deletions. In general, ArrayList tends to be the most generally useful because the lookup speed is so helpful, but LinkedLists definitely have their place.
 
 There are variations of LinkedList, called the Double LinkedList. Rather then just having a forward, it also has a previous. You really never have to worry about these in Javascript because arrays are quite optimized, but in other languages like C or Java it could make a pretty big difference. With Linkedlists you do better with memory since you do not have to define it, but ArrayLists require you to define it.
+
+One real world example of using this would be implementing an Least Recently Used Cache. 
 
 ```javascript
 class LinkedList {
