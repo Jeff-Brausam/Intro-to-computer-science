@@ -165,7 +165,8 @@ class HashTable {
 
     return sum % n;
   }
-}```
+}
+```
 ## Arrays
 Arrays are used to organize items sequentially in memory. The pros are fast lookups and appends. A con is the slow inserts and deletes. 
 
