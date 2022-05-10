@@ -104,6 +104,11 @@ Everytime you want to store an item in memory, you ask the computer for some spa
 ## Arrays
 Arrays are used to organize items sequentially in memory. The pros are fast lookups and appends. A con is the slow inserts and deletes. 
 
+|      | array            | list            |
+| ------------ | --------------- | --------------- |
+| Reading         | O(1)        | O(n)        |
+| Insertion    | O(n)     | O(1)     |
+
 ## Hash Tables
 A hash table organizes data for quick lookup on values for a given key. Hash tables are not ordered. The pros of using a hash table are fast lookups, and flexible keys. Some cons are slow worst-case lookups, its unordered, and single-directional lookups. The underlying structure is the same concept as objects, or maps. 
 
