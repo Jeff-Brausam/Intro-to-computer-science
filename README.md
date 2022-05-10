@@ -101,14 +101,6 @@ stack.dequeue()
 ## Memory
 Everytime you want to store an item in memory, you ask the computer for some space and an address to store that item. If you want to store multiple items, two ways to do that are with arrays and lists. There are pros and cons to both of those. With javascript and dynamic languages, these typically adjust size automatically and are not as much of a worry as it would be in other non-dynamic languages.
 
-## Arrays
-Arrays are used to organize items sequentially in memory. The pros are fast lookups and appends. A con is the slow inserts and deletes. 
-
-|      | Arrays            | Lists            |
-| ------------ | --------------- | --------------- |
-| Reading         | O(1)        | O(n)        |
-| Insertion    | O(n)     | O(1)     |
-
 ## Hash Tables
 A hash table organizes data for quick lookup on values for a given key. Hash tables are not ordered. The pros of using a hash table are fast lookups, and flexible keys. Some cons are slow worst-case lookups, its unordered, and single-directional lookups. The underlying structure is the same concept as objects, or maps. 
 
@@ -443,6 +435,16 @@ const BinarySearch = (sortedlist, item) => {
 ```
 
 ## Arrays
+Arrays are used to organize items sequentially in memory. The pros are fast lookups and appends. A con is the slow inserts and deletes. 
+
+|      | Arrays            | Lists            |
+| ------------ | --------------- | --------------- |
+| Reading         | O(1)        | O(n)        |
+| Insertion    | O(n)     | O(1)     |
+| Deletion    | O(n)     | O(1)     |
+
+There are two different types of access with arrays and linkedlists, random access and sequential access. Linkedlists can only do sequential access, in which if you want to read the 10th element of an array, you will have to loop through 9 elements to find the 10th. Arrays allow random access, where you can directly jump to that 10th element. That is exactly what makes an array powerful when it comes to reading. 
+
 ## Array List
 This is actually a bit of a moot point for JavaScript developers: we have normal arrays and no choice beyond anything in the matter. In other languages, however, there are multiple types of array and you choose which one you need based on the sort operations you intend on doing on that array. Lets say there is no such thing as an array in Javascript. We only have one thing: objects. So we'd need to implement the array numbering ourselves. But not just that, we'd have to implment adding numbers, removing numbers, getting numbers, etc. 
 
