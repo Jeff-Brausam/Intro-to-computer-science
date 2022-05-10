@@ -104,7 +104,7 @@ Everytime you want to store an item in memory, you ask the computer for some spa
 ## Arrays
 Arrays are used to organize items sequentially in memory. The pros are fast lookups and appends. A con is the slow inserts and deletes. 
 
-|      | array            | list            |
+|      | Arrays            | Lists            |
 | ------------ | --------------- | --------------- |
 | Reading         | O(1)        | O(n)        |
 | Insertion    | O(n)     | O(1)     |
