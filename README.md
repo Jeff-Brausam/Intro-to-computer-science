@@ -100,6 +100,9 @@ stack.dequeue()
 
 ## Memory
 Everytime you want to store an item in memory, you ask the computer for some space and an address to store that item. If you want to store multiple items, two ways to do that are with arrays and lists. There are pros and cons to both of those. With javascript and dynamic languages, these typically adjust size automatically and are not as much of a worry as it would be in other non-dynamic languages.
+
+Say you have a callstack with a recursive function, one that is calling itself over and over. Everytime you create a new function call, you add an item to the stack. Each of these function calls allocates a new "box" of memory for each call. All of these variables are stored in memory until the last call is complete. 
+
 ## Arrays
 Arrays are used to organize items sequentially in memory. The pros are fast lookups and appends. A con is the slow inserts and deletes. 
 
