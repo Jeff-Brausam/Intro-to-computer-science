@@ -422,9 +422,12 @@ function selectionSort(inputArr) {
 The point of recursion is to break down a problem, into smaller problems, until you have a problem that you can solve.
 Rather than using loops, you instead are having the function call itself until solved.
   
-The tradeoff is readability vs performance. Frequently but not always an iterative solution will be faster and more efficent as the problem scales. Realizing these patterns is extremely important, as you will see the concept of recursion in merge and quick sorts. 
+The tradeoff is readability vs performance. Frequently but not always an iterative solution will be faster and more efficent as the problem scales. Realizing these patterns is extremely important, as you will see the concept of recursion in merge and quick sorts.
+
+Another cost of recursion is also memory, as each item added to a stack will take up more memory. If you are in a situation where memory is a concern you have two options. Rewrite your code as a loop instead, or use tail recursion. 
 
 Recursion consists of two things: a base case - a case where the problem is defined as complete, and a recursive call - a call to the same function, until it solves itself.
+
 
 Here are some common examples:
 
@@ -596,13 +599,13 @@ function radixSort(array) {
 Binary search is an algorithm that takes a **sorted** list, and an item and does something similar to this situation. Say you have a phonebook and you are looking for a name. Rather than going a page at a time (linear or simple search, like a for loop), you'll open the book more or less to the middle (or say you do, for argument's sake.) From there, if the name you're looking for is smaller/earlier in the alphabet, you'll go halfway to the smaller/earlier side of the book, and so-on-and-so-forth, keeping going halfway until eventually you land on the name you're looking for. 
 
 ```javascript
-const BinarySearch = (sortedlist, item) => {
+const BinarySearch = (sortedList, item) => {
   let low = 0;
-  let high = sortedlist.length - 1;
+  let high = sortedList.length - 1;
 
   while (low <= high) {
-    let middle = low + high;
-    let guess = sortedlist[middle];
+    let middle = Math.floor((low + high) / 2);
+    let guess = sortedList[middle];
 
     if (guess == item) {
       return Math.floor(middle);
