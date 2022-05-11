@@ -391,6 +391,30 @@ const InsertionSort = (arr) => {
 ##### When would you use an insertion sort over a quick/merge sort?
 The case in which you would use an insertion sort is when a list is pretty close to already being sorted. But if it isn't, then something like merge or quick sort would be better.
 
+
+### Selection Sort 
+The selection sort is an algorithm that does this: Sorts an array by repeatedly finding the minimum element (considering ascending order) from unsorted part and putting it at the beginning. The algorithm maintains two subarrays in a given array. The subarray which is already sorted. The remaining subarray which is unsorted. In every iteration of selection sort, the minimum element (considering ascending order) from the unsorted subarray is picked and moved to the sorted subarray. 
+
+```javascript 
+function selectionSort(inputArr) {
+  for (let i = 0; i < inputArr.length; i++) {
+    // Finding the smallest number in the subarray
+    let min = i;
+    for (let j = i + 1; j < inputArr.length; j++) {
+      if (inputArr[j] < inputArr[min]) {
+        min = j;
+      }
+    }
+
+    // Swapping the elements
+    let tmp = inputArr[i];
+    inputArr[i] = inputArr[min];
+    inputArr[min] = tmp;
+  }
+  return inputArr;
+}
+```
+
 ## Recursion
 The point of recursion is to break down a problem, into smaller problems, until you have a problem that you can solve.
 Rather than using loops, you instead are having the function call itself until solved.
