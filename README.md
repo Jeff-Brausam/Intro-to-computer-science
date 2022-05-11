@@ -100,7 +100,164 @@ stack.dequeue()
 
 ## Memory
 Everytime you want to store an item in memory, you ask the computer for some space and an address to store that item. If you want to store multiple items, two ways to do that are with arrays and lists. There are pros and cons to both of those. With javascript and dynamic languages, these typically adjust size automatically and are not as much of a worry as it would be in other non-dynamic languages.
+## Arrays
+Arrays are used to organize items sequentially in memory. The pros are fast lookups and appends. A con is the slow inserts and deletes. 
 
+|      | Arrays            | Lists            |
+| ------------ | --------------- | --------------- |
+| Reading         | O(1)        | O(n)        |
+| Insertion    | O(n)     | O(1)     |
+| Deletion    | O(n)     | O(1)     |
+
+There are two different types of access with arrays and linkedlists, random access and sequential access. Linkedlists can only do sequential access, in which if you want to read the 10th element of an array, you will have to loop through 9 elements to find the 10th. Arrays allow random access, where you can directly jump to that 10th element. That is exactly what makes an array powerful when it comes to reading. 
+
+### Array List
+This is actually a bit of a moot point for JavaScript developers: we have normal arrays and no choice beyond anything in the matter. In other languages, however, there are multiple types of array and you choose which one you need based on the sort operations you intend on doing on that array. Lets say there is no such thing as an array in Javascript. We only have one thing: objects. So we'd need to implement the array numbering ourselves. But not just that, we'd have to implment adding numbers, removing numbers, getting numbers, etc. 
+
+Array list struggles when it comes to having to add something in the middle, or deleting items off the array, because then everything else has to shift. They are good though for things you have to do a lot of lookups on, or addition (adding things to the end). This is to implement a dynamic array.
+
+```javascript
+class ArrayList {
+  constructor() {
+    this.length = 0;
+    this.data = {};
+  }
+  push(value) {
+    this.data[this.length] = value;
+    this.length++;
+  }
+  pop() {
+    const ans = this.data[this.length - 1];
+    delete this.data[this.length - 1];
+    this.length--;
+    return ans;
+  }
+  get(index) {
+    return this.data[index];
+  }
+  delete(index) {
+    const ans = this.data[index];
+    this._collapseTo(index);
+    return ans;
+  }
+  _collapseTo(index) {
+    for (let i = index; i < this.length; i++) {
+      this.data[i] = this.data[i + 1];
+    }
+    delete this.data[this.length - 1];
+    this.length--;
+  }
+  serialize() {
+    return this.data;
+  }
+}
+```
+
+### Linked List
+LinkedList is made of a bunch of nodes that point to the next one in the list. Every node in a LinkedLists has two properties, the value of whatever is being store and a pointer to the next node in the list. A linked list organizes items sequentially, with a pointer to the next. The benefits are the quick operations on the ends, and its flexible size. A downsize it the lookups end up being quite costly. 
+
+The main thing that gives LinkedList an advantage over ArrayList, is that the inserts and deletes work great. It is ideal when you're doing a lot of writes and deletions. In general, ArrayList tends to be the most generally useful because the lookup speed is so helpful, but LinkedLists definitely have their place.
+
+There are variations of LinkedList, called the Double LinkedList. Rather then just having a forward, it also has a previous. You really never have to worry about these in Javascript because arrays are quite optimized, but in other languages like C or Java it could make a pretty big difference. With Linkedlists you do better with memory since you do not have to define it, but ArrayLists require you to define it.
+
+One real world example of using this would be implementing an Least Recently Used Cache. 
+
+```javascript
+class LinkedList {
+  constructor() {
+    this.tail = this.head = null;
+    this.length = 0;
+  }
+  push(value) {
+    const node = new Node(value);
+    this.length++;
+    if (!this.head) {
+      this.head = node;
+    } else {
+      this.tail.next = node;
+    }
+    this.tail = node;
+  }
+  pop() {
+    if (!this.head) return null;
+    if (this.head === this.tail) {
+      const node = this.head;
+      this.head = this.tail = null;
+      return node.value;
+    }
+    const penultimate = this._find(
+      null,
+      (value, nodeValue, i, current) => current.next === this.tail
+    );
+    const ans = penultimate.next.value;
+    penultimate.next = null;
+    this.tail = penultimate;
+    this.length--;
+    return ans;
+  }
+  _find(value, test = this.test) {
+    let current = this.head;
+    let i = 0;
+    while (current) {
+      if (test(value, current.value, i, current)) {
+        return current;
+      }
+      current = current.next;
+      i++;
+    }
+    return null;
+  }
+  get(index) {
+    const node = this._find(index, this.testIndex);
+    if (!node) return null;
+    return node.value;
+  }
+  delete(index) {
+    if (index === 0) {
+      const head = this.head;
+      if (head) {
+        this.head = head.next;
+      } else {
+        this.head = null;
+        this.tail = null;
+      }
+      this.length--;
+      return head.value;
+    }
+
+    const node = this._find(index - 1, this.testIndex);
+    const excise = node.next;
+    if (!excise) return null;
+    node.next = excise.next;
+    if (!node.next.next) this.tail = node.next;
+    this.length--;
+    return excise.value;
+  }
+  test(search, nodeValue) {
+    return search === nodeValue;
+  }
+  testIndex(search, __, i) {
+    return search === i;
+  }
+  serialize() {
+    const ans = [];
+    let current = this.head;
+    if (!current) return ans;
+    while (current) {
+      ans.push(current.value);
+      current = current.next;
+    }
+    return ans;
+  }
+}
+
+class Node {
+  constructor(value) {
+    this.value = value;
+    this.next = null;
+  }
+}
+```
 ## Hash Tables
 A hash table organizes data for quick lookup on values for a given key. Hash tables are not ordered. The pros of using a hash table are fast lookups, and flexible keys. Some cons are slow worst-case lookups, its unordered, and single-directional lookups. The underlying structure is the same concept as objects, or maps. 
 
@@ -177,7 +334,7 @@ Note: There are probably better and more optimized ways of solving these algorit
 
 ## Iterative Sorts
 
-#### Bubble Sort
+### Bubble Sort
 
 The bubble sort algorithm does this: Go through each number individually in a list, and assess whether or not the number on the left is bigger or smaller, if it is bigger the two numbers switch places. 
 
@@ -204,7 +361,7 @@ const BubbleSort = (nums) => {
 ```
 
 
-#### Insertion Sort 
+### Insertion Sort 
 
 The insertion sort algorithm does this: You create two parts to your list. You treat the first part of your list as sorted and the second part of your list as unsorted. Its easiest to conceptualize as cards: We start with an empty left hand and the cards face down on the table. We then remove one card at a time from the table and insert it into the correct position in the left hand. To find the correct position for a card, we compare it with each of the cards already in the hand, from right to left. At all times, the cards held in the left hand are sorted, and these cards were originally the top cards of the pile on the table. 
 
@@ -434,164 +591,6 @@ const BinarySearch = (sortedlist, item) => {
 };
 ```
 
-## Arrays
-Arrays are used to organize items sequentially in memory. The pros are fast lookups and appends. A con is the slow inserts and deletes. 
-
-|      | Arrays            | Lists            |
-| ------------ | --------------- | --------------- |
-| Reading         | O(1)        | O(n)        |
-| Insertion    | O(n)     | O(1)     |
-| Deletion    | O(n)     | O(1)     |
-
-There are two different types of access with arrays and linkedlists, random access and sequential access. Linkedlists can only do sequential access, in which if you want to read the 10th element of an array, you will have to loop through 9 elements to find the 10th. Arrays allow random access, where you can directly jump to that 10th element. That is exactly what makes an array powerful when it comes to reading. 
-
-## Array List
-This is actually a bit of a moot point for JavaScript developers: we have normal arrays and no choice beyond anything in the matter. In other languages, however, there are multiple types of array and you choose which one you need based on the sort operations you intend on doing on that array. Lets say there is no such thing as an array in Javascript. We only have one thing: objects. So we'd need to implement the array numbering ourselves. But not just that, we'd have to implment adding numbers, removing numbers, getting numbers, etc. 
-
-Array list struggles when it comes to having to add something in the middle, or deleting items off the array, because then everything else has to shift. They are good though for things you have to do a lot of lookups on, or addition (adding things to the end). This is to implement a dynamic array.
-
-```javascript
-class ArrayList {
-  constructor() {
-    this.length = 0;
-    this.data = {};
-  }
-  push(value) {
-    this.data[this.length] = value;
-    this.length++;
-  }
-  pop() {
-    const ans = this.data[this.length - 1];
-    delete this.data[this.length - 1];
-    this.length--;
-    return ans;
-  }
-  get(index) {
-    return this.data[index];
-  }
-  delete(index) {
-    const ans = this.data[index];
-    this._collapseTo(index);
-    return ans;
-  }
-  _collapseTo(index) {
-    for (let i = index; i < this.length; i++) {
-      this.data[i] = this.data[i + 1];
-    }
-    delete this.data[this.length - 1];
-    this.length--;
-  }
-  serialize() {
-    return this.data;
-  }
-}
-```
-
-## Linked List
-LinkedList is made of a bunch of nodes that point to the next one in the list. Every node in a LinkedLists has two properties, the value of whatever is being store and a pointer to the next node in the list. A linked list organizes items sequentially, with a pointer to the next. The benefits are the quick operations on the ends, and its flexible size. A downsize it the lookups end up being quite costly. 
-
-The main thing that gives LinkedList an advantage over ArrayList, is that the inserts and deletes work great. It is ideal when you're doing a lot of writes and deletions. In general, ArrayList tends to be the most generally useful because the lookup speed is so helpful, but LinkedLists definitely have their place.
-
-There are variations of LinkedList, called the Double LinkedList. Rather then just having a forward, it also has a previous. You really never have to worry about these in Javascript because arrays are quite optimized, but in other languages like C or Java it could make a pretty big difference. With Linkedlists you do better with memory since you do not have to define it, but ArrayLists require you to define it.
-
-One real world example of using this would be implementing an Least Recently Used Cache. 
-
-```javascript
-class LinkedList {
-  constructor() {
-    this.tail = this.head = null;
-    this.length = 0;
-  }
-  push(value) {
-    const node = new Node(value);
-    this.length++;
-    if (!this.head) {
-      this.head = node;
-    } else {
-      this.tail.next = node;
-    }
-    this.tail = node;
-  }
-  pop() {
-    if (!this.head) return null;
-    if (this.head === this.tail) {
-      const node = this.head;
-      this.head = this.tail = null;
-      return node.value;
-    }
-    const penultimate = this._find(
-      null,
-      (value, nodeValue, i, current) => current.next === this.tail
-    );
-    const ans = penultimate.next.value;
-    penultimate.next = null;
-    this.tail = penultimate;
-    this.length--;
-    return ans;
-  }
-  _find(value, test = this.test) {
-    let current = this.head;
-    let i = 0;
-    while (current) {
-      if (test(value, current.value, i, current)) {
-        return current;
-      }
-      current = current.next;
-      i++;
-    }
-    return null;
-  }
-  get(index) {
-    const node = this._find(index, this.testIndex);
-    if (!node) return null;
-    return node.value;
-  }
-  delete(index) {
-    if (index === 0) {
-      const head = this.head;
-      if (head) {
-        this.head = head.next;
-      } else {
-        this.head = null;
-        this.tail = null;
-      }
-      this.length--;
-      return head.value;
-    }
-
-    const node = this._find(index - 1, this.testIndex);
-    const excise = node.next;
-    if (!excise) return null;
-    node.next = excise.next;
-    if (!node.next.next) this.tail = node.next;
-    this.length--;
-    return excise.value;
-  }
-  test(search, nodeValue) {
-    return search === nodeValue;
-  }
-  testIndex(search, __, i) {
-    return search === i;
-  }
-  serialize() {
-    const ans = [];
-    let current = this.head;
-    if (!current) return ans;
-    while (current) {
-      ans.push(current.value);
-      current = current.next;
-    }
-    return ans;
-  }
-}
-
-class Node {
-  constructor(value) {
-    this.value = value;
-    this.next = null;
-  }
-}
-```
 ## Trees
 ## Binary Search Tree
 Trees are another way to structure data. A binary search tree has to be in a sorted order, just like a binary search does. At its core, a tree is very similar to a LinkedList. You have nodes. Those nodes have values and pointers to other nodes. Unlike a LinkedList which only has one next pointer (or maybe a next and previous) trees can have many pointers. This hiearchy is important to remember, as one node splits into two, and that splits in the same pattern from there. A binary tree will have two children at most. 
