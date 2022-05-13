@@ -428,6 +428,8 @@ Another cost of recursion is also memory, as each item added to a stack will tak
 
 Recursion consists of two things: a base case - a case where the problem is defined as complete, and a recursive call - a call to the same function, until it solves itself.
 
+Tip: When you’re writing a recursive function involving an array, the base case is often an empty array or an array with one element. If you’re stuck, try that first.
+
 
 Here are some common examples:
 
